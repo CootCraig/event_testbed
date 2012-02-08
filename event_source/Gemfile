@@ -1,0 +1,3 @@
+source :rubygems
+gem "celluloid", "~> 0.8.0"
+
