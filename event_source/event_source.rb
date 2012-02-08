@@ -5,13 +5,13 @@
 # Imagine the events are for a door sensor
 #
 # States are [open] [closed] [missing]
-# events are >open> >close> >remove> >replace>
+# events are <open> <close> <remove> <replace>
 #
 # Transitions are
-#  [closed] >open> [open]
-#  [open] >close> [closed]
-#  [open] >remove> [missing]
-#  [missing] >replace> [open]
+#  [closed] <open> [open]
+#  [open] <close> [closed]
+#  [open] <remove> [missing]
+#  [missing] <replace> [open]
 #
 #  Server will accept connections
 #  Each connection is assigned a unique door name 1001 1002 1003 ...
@@ -79,13 +79,13 @@ else
     end
     def next_transition
       case @state
-      when 'closed' then [ 'open', 'open' ]
-      when 'missing' then [ 'replace', 'open' ]
+      when 'closed' then [ '<open>', 'open' ]
+      when 'missing' then [ '<replace>', 'open' ]
       else # open
         if rand() < 0.1
-          [ 'remove', 'missing' ]
+          [ '<remove>', 'missing' ]
         else
-          [ 'close', 'closed' ]
+          [ '<close>', 'closed' ]
         end
       end
     end
