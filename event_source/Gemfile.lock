@@ -2,11 +2,21 @@ GEM
   remote: http://rubygems.org/
   specs:
     celluloid (0.8.0)
+    celluloid-io (0.8.0)
+      celluloid (~> 0.8.0)
+      nio4r (>= 0.2.2)
+    columnize (0.3.6)
     json (1.6.5-java)
+    nio4r (0.2.2-java)
+    ruby-debug (0.10.4)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.4.0)
+    ruby-debug-base (0.10.4-java)
 
 PLATFORMS
   java
 
 DEPENDENCIES
-  celluloid (~> 0.8.0)
+  celluloid-io (~> 0.8.0)
   json
+  ruby-debug

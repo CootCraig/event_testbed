@@ -1,4 +1,4 @@
 source :rubygems
-gem "celluloid", "~> 0.8.0"
+gem "celluloid-io", "~> 0.8.0"
 gem "json"
-
+gem "ruby-debug"
