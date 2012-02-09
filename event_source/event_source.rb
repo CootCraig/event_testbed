@@ -24,7 +24,6 @@ require "bundler/setup"
 require "json"
 require "celluloid/io"
 require 'socket'
-require 'ruby-debug'
 
 client = false
 ARGV.each do |arg|
@@ -38,8 +37,7 @@ class ClientAcceptActor
   @@doors = {} # 'door_name' -> DoorEventActor
 
   def initialize
-    debugger
-    @server = TCPServer.new(@@server_port)
+    @server = TCPServer.new('127.0.0.1',@@server_port)
     puts "Accepting door clients on port #{@@server_port} server.class #{@server.class}"
     run!
   end
@@ -80,7 +78,7 @@ class DoorEventActor
   def run
     start_msg = { door: @door_name, state: @state, time: Time.now.to_s }
     puts "start_msg #{start_msg} socket.class #{@socket.class}"
-    @socket.puts(JSON( start_msg ))
+    @socket.write( "#{ JSON( start_msg ) }\n" )
     @event_timer = after(sleep_time()) { event! }
     handle_client_close!
   end
@@ -88,7 +86,7 @@ class DoorEventActor
     event,new_state = next_transition()
     event_msg = { door: @door_name, start_state: @state, event: event, end_state: new_state, time: Time.now.to_s }
     puts "event_msg #{event_msg}"
-    @socket.puts( JSON( event_msg ) )
+    @socket.write( "#{ JSON( event_msg ) }\n" )
     @state = new_state
     @event_timer = after(sleep_time()) {event!}
   end
@@ -101,6 +99,10 @@ class DoorEventActor
     rescue
       puts "Client terminated. door #{@door_name} host #{@host} port #{@client_port}"
       ClientAcceptActor.doors.delete(@door_name)
+      if @event_timer
+        @event_timer.cancel
+        @event_timer = nil
+      end
       terminate
     end
   end

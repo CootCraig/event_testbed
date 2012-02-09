@@ -17,6 +17,7 @@ PLATFORMS
   java
 
 DEPENDENCIES
-  celluloid-io (~> 0.8.0)
+  celluloid (= 0.8.0)
+  celluloid-io (= 0.8.0)
   json
   ruby-debug
