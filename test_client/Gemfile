@@ -1,0 +1,4 @@
+source :rubygems
+gem "json"
+gem 'jruby-openssl'
+gem "ruby-debug"
